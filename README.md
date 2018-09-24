@@ -9,3 +9,18 @@ The Spring Boot Gradle plugin also includes a bootRun task that can be used to r
 ```
 $ gradle bootRun
 ```
+
+## Dependencies
+
+Spring Boot Starters and dependencies in this application
+
+- Web
+- Security
+- Actuator
+- DevTools
+- Mail
+- MongoDB
+- Freemarker
+- Websocket
+- Lombok
+- Keycloak
