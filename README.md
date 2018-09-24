@@ -6,8 +6,16 @@ Automatically generate event certificates according to multiple input files like
 
 The Spring Boot Gradle plugin also includes a bootRun task that can be used to run your application in an exploded form. The bootRun task is added whenever you apply the org.springframework.boot and java plugins and is shown in the following example:
 
+### Windows
+
 ```
-$ gradle bootRun
+$ ./gradlew bootRun
+```
+
+### Posix
+
+```
+$ gradlew bootRun
 ```
 
 ## Dependencies
