@@ -13,11 +13,6 @@ class Organization(models.Model):
     def __str__ (self):
         return self.name
 
-    class Meta:
-        permissions = (
-            ("can_issue_certificate", "Can Issue Certificate"),
-        )
-
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
     name = models.CharField(max_length = 100, validators = [ProhibitNullCharactersValidator])
@@ -28,3 +23,15 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+class Certificate(models.Model):
+    student = models.ForeignKey(Student, on_delete = models.CASCADE)
+    issuing_organization = models.ForeignKey(Organization, on_delete = models.CASCADE)
+
+    date = models.DateField(auto_now_add = True)
+    issued_for = models.CharField(max_length = 256)
+
+    class Meta:
+        permissions = (
+            ("can_issue_certificate", "Can Issue Certificate"),
+        )
