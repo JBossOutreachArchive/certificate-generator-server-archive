@@ -4,6 +4,8 @@ from django.core.validators import (
     ProhibitNullCharactersValidator,
 )
 
+import uuid
+
 # Create your models here.
 
 class Organization(models.Model):
@@ -12,11 +14,6 @@ class Organization(models.Model):
 
     def __str__ (self):
         return self.name
-
-    class Meta:
-        permissions = (
-            ("can_issue_certificate", "Can Issue Certificate"),
-        )
 
 class Student(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE)
@@ -28,3 +25,16 @@ class Student(models.Model):
 
     def __str__(self):
         return self.name
+
+class Certificate(models.Model):
+    id = models.IntegerField(unique = True, default = uuid.uuid4, primary_key = True)
+    student = models.ForeignKey(Student, on_delete = models.CASCADE)
+    issuing_organization = models.ForeignKey(Organization, on_delete = models.CASCADE)
+
+    date = models.DateField(auto_now_add = True)
+    issued_for = models.CharField(max_length = 256)
+
+    class Meta:
+        permissions = (
+            ("can_issue_certificate", "Can Issue Certificate"),
+        )
