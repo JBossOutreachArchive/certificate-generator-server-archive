@@ -15,18 +15,20 @@ from api import (
 
 
 class StudentDetail(generics.RetrieveAPIView):
-    queryset = User.objects.exclude(student = None)
+    queryset = User.objects.exclude(student=None)
     model = User
     serializer_class = serializers.UserBasicSerializer
 
     permission_classes = (permissions.IsAdminUser,)
+
 
 class StudentList(generics.ListAPIView):
-    queryset = User.objects.exclude(student = None)
+    queryset = User.objects.exclude(student=None)
     model = User
     serializer_class = serializers.UserBasicSerializer
 
     permission_classes = (permissions.IsAdminUser,)
+
 
 class CertificateList(generics.ListAPIView):
     model = models.Certificate
@@ -40,7 +42,9 @@ class CertificateDetail(generics.RetrieveAPIView):
     serializer_class = serializers.CertificateDetailSerializer
 
     def get_queryset(self):
-        return models.Certificate.objects.filter(student = self.request.user.student).exclude(student = None)
+        return models.Certificate.objects. \
+                filter(student=self.request.user.student).exclude(student=None)
+
 
 class CertificateCreate(generics.CreateAPIView):
     model = models.Certificate
