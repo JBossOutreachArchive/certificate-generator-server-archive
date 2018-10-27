@@ -4,6 +4,8 @@ from django.core.validators import (
     ProhibitNullCharactersValidator,
 )
 
+import uuid
+
 # Create your models here.
 
 class Organization(models.Model):
@@ -25,6 +27,7 @@ class Student(models.Model):
         return self.name
 
 class Certificate(models.Model):
+    id = models.IntegerField(unique = True, default = uuid.uuid4, primary_key = True)
     student = models.ForeignKey(Student, on_delete = models.CASCADE)
     issuing_organization = models.ForeignKey(Organization, on_delete = models.CASCADE)
 
