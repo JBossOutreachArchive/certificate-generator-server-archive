@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='certificate',
             name='id',
-            field=models.IntegerField(default=uuid.uuid4, primary_key=True, serialize=False, unique=True),
+            field=models.UUIDField(default=uuid.uuid4, primary_key=True, serialize=False, unique=True),
         ),
     ]

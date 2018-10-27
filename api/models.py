@@ -27,7 +27,7 @@ class Student(models.Model):
         return self.name
 
 class Certificate(models.Model):
-    id = models.IntegerField(unique = True, default = uuid.uuid4, primary_key = True)
+    id = models.UUIDField(unique = True, default = uuid.uuid4, primary_key = True)
     student = models.ForeignKey(Student, on_delete = models.CASCADE)
     issuing_organization = models.ForeignKey(Organization, on_delete = models.CASCADE)
 
