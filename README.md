@@ -49,5 +49,4 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 ```
-
-To stop the server, press `Ctrl + C` and deactivate the virtual environmenat using `deactivate` command.
+To stop the server, press `Ctrl + C` and deactivate the virtual environment using `deactivate` command.
