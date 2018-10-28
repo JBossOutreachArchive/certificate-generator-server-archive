@@ -1,5 +1,5 @@
 # Certificate Generator Server
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f8e7e09b0bb24287baf60147db126f0f)](https://www.codacy.com/app/JBossOutreach/contact-groups-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBossOutreach/contact-groups-android&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/f8e7e09b0bb24287baf60147db126f0f)](https://www.codacy.com/app/JBossOutreach/certificate-generator-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBossOutreach/certificate-generator-server&amp;utm_campaign=Badge_Grade)
 
 An automatic certificate generator for events according to multiple input files like csv, xslx, numbers and shoot emails with generated certificates.
 
