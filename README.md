@@ -1,7 +1,7 @@
 # Certificate Generator Server
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06bd6acff9cd4506985192596642ef5f)](https://www.codacy.com/app/JBossOutreach/certificate-generator-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBossOutreach/certificate-generator-server&amp;utm_campaign=Badge_Grade)
 
-An automatic certificate generator for events according to multiple input files like csv, xslx, numbers and shoot emails with generated certificates.
+An automatic certificate generator for events according to multiple input files like csv, xlsx, numbers and shoot emails with generated certificates.
 
 ## Setting up environment
 
