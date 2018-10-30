@@ -1,7 +1,6 @@
 # Certificate Generator Server
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06bd6acff9cd4506985192596642ef5f)](https://www.codacy.com/app/JBossOutreach/certificate-generator-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBossOutreach/certificate-generator-server&amp;utm_campaign=Badge_Grade)
-![Android](https://img.shields.io/badge/GCI-Android-green.svg?longCache=true&style=flat-square)   ![In Progress](https://img.shields.io/badge/In--progress-true-green.svg?longCache=true&style=flat-square) <br />
-[![Build Status](https://travis-ci.org/JbossOutreach/visiting-card-android.svg?branch=master)](https://travis-ci.org/JbossOutreach/visiting-card-android)
+[![Build Status](https://travis-ci.org/JBossOutreach/certificate-generator-server.svg?branch=master)](https://travis-ci.org/JBossOutreach/certificate-generator-server)
 
 An automatic certificate generator for events according to multiple input files like csv, xslx, numbers and shoot emails with generated certificates.
 
