@@ -11,7 +11,7 @@ An automatic certificate generator for events according to multiple input files 
 pip install virtualenv
 ```
 
-- Create a virtual environment named env using the following command
+- Create a virtual environment named env using the following command:
 
 ```sh
 virtualenv env -p python3
@@ -29,7 +29,7 @@ env\Scripts\activate.bat
 source env/bin/activate
 ```
 
-- Run the following command to install the dependencies
+- Run the following command to install the dependencies:
 
 ```sh
 pip install -r requirements.txt
@@ -42,7 +42,7 @@ pip install -r requirements.txt
 
 Check [Example .env file](.env.sample)
 
-## Running
+## Running:
 
 ```sh
 python manage.py makemigrations
