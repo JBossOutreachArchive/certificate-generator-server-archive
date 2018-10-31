@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from django.contrib.auth.models import User
 
 from rest_framework.response import Response
@@ -35,7 +34,9 @@ class CertificateList(generics.ListAPIView):
     serializer_class = serializers.CertificateDetailSerializer
 
     def get_queryset(self):
-        return models.Certificate.objects.filter(student = self.request.user.student).exclude(student = None)
+        return models.Certificate.objects.filter(student=self.request.user.student). \
+                                          exclude(student=None)
+
 
 class CertificateDetail(generics.RetrieveAPIView):
     model = models.Certificate
@@ -54,8 +55,8 @@ class CertificateCreate(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
         data['issuing_organization'] = request.user.organization.pk
-        serializer = self.serializer_class(data = data)
-        serializer.is_valid(raise_exception = True)
+        serializer = self.serializer_class(data=data)
+        serializer.is_valid(raise_exception=True)
         serializer.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)

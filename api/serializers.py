@@ -37,10 +37,11 @@ class CertificateSerializer(serializers.ModelSerializer):
         model = models.Certificate
         fields = ('issued_for', 'student', 'issuing_organization')
 
+
 class CertificateDetailSerializer(CertificateSerializer):
     student = StudentBasicSerializer()
     issuing_organization = OrganisationBasicSerializer()
 
     class Meta:
         model = models.Certificate
-        fields = ('id' ,'issued_for', 'student', 'issuing_organization')
+        fields = ('id', 'issued_for', 'student', 'issuing_organization')
