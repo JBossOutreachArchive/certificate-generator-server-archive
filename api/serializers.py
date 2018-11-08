@@ -9,6 +9,12 @@ class StudentBasicSerializer(serializers.ModelSerializer):
         model = models.Student
         fields = ('name',)
 
+    def create(self, data):
+        user_data = data.pop('user')
+        user = UserBasicSerializer.create(UserBasicSerializer(), user_data)
+
+        return models.Student.objects.create(user=user, name=data.pop('name'))
+
 
 class UserBasicSerializer(serializers.ModelSerializer):
     student = StudentBasicSerializer()
@@ -22,6 +28,12 @@ class OrganisationBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Organization
         fields = ('name',)
+
+    def create(self, data):
+        user_data = data.pop('user')
+        user = UserBasicSerializer.create(UserBasicSerializer(), user_data)
+
+        return models.Organization.objects.create(user=user, name=data.pop('name'))
 
 
 class UserOrganizationBasicSerializer(serializers.ModelSerializer):
