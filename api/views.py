@@ -24,12 +24,13 @@ class StudentCreation(generics.CreateAPIView):
     @classmethod
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
-
-        if serializer.is_valid(raise_exception=True):
-            serializer.create(request.data)
-            jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
-            return Response(jwt_token, status=status.HTTP_201_CREATED)
-
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.create(request.data)
+                jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
+                return Response(jwt_token, status=status.HTTP_201_CREATED)
+        except:
+            serializer.error_messages = {'Error': 'Student with that username already exists!'};
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -43,11 +44,13 @@ class OrganizationCreation(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.create(request.data)
-            jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
-            return Response(jwt_token, status=status.HTTP_201_CREATED)
-
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.create(request.data)
+                jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
+                return Response(jwt_token, status=status.HTTP_201_CREATED)
+        except:
+            serializer.error_messages = {'Error': 'Organization with that username already exists!'}
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 class StudentDetail(generics.RetrieveAPIView):
