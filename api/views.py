@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.db import IntegrityError
 import jwt
 from rest_framework.response import Response
 from rest_framework.decorators import authentication_classes, permission_classes
@@ -29,7 +30,7 @@ class StudentCreation(generics.CreateAPIView):
                 serializer.create(request.data)
                 jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
                 return Response(jwt_token, status=status.HTTP_201_CREATED)
-        except:
+        except IntegrityError:
             serializer.error_messages = {'Error': 'Student with that username already exists!'};
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
@@ -49,7 +50,7 @@ class OrganizationCreation(generics.CreateAPIView):
                 serializer.create(request.data)
                 jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
                 return Response(jwt_token, status=status.HTTP_201_CREATED)
-        except:
+        except IntegrityError:
             serializer.error_messages = {'Error': 'Organization with that username already exists!'}
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 

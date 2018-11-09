@@ -9,6 +9,7 @@ class StudentBasicSerializer(serializers.ModelSerializer):
         model = models.Student
         fields = ('name',)
 
+    @classmethod
     def create(self, data):
         user_data = data.pop('user')
         user = UserBasicSerializer.create(UserBasicSerializer(), user_data)
@@ -29,6 +30,7 @@ class OrganisationBasicSerializer(serializers.ModelSerializer):
         model = models.Organization
         fields = ('name',)
 
+    @classmethod
     def create(self, data):
         user_data = data.pop('user')
         user = UserBasicSerializer.create(UserBasicSerializer(), user_data)

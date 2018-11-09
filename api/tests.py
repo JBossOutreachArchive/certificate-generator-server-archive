@@ -16,7 +16,7 @@ class OrganizationTestCase(TestCase):
 
 class StudentTestcase(TestCase):
     def setUp(self):
-        user = User.objects.create(username="jbossStudent", password="jbossStudentsPassword")
+        user = User.objects.create(username="jbossStudent", password="jbossAdminsPassword")
         Student.objects.create(user=user, name="Saba Khukhunashvili")
 
     def test_if_student_was_created(self):
