@@ -6,12 +6,57 @@ from rest_framework import (
     permissions,
     status
 )
+from rest_framework.views import APIView
+from rest_framework.decorators import (
+    authentication_classes,
+    permission_classes
+)
 from api import (
     models,
     serializers,
     permissions as custom_permissions,
 )
+from jwt import encode
+from decouple import config
 
+@authentication_classes([])
+@permission_classes([])
+class Register(APIView):
+    def post(self, req):
+        try:
+            reqData = req.data
+            requiredParams = ["canIssue","name","password"]
+
+            if (sorted(list(reqData.keys())) != requiredParams):
+                raise Exception("Missing or invalid parameters") 
+            userData = (
+                models.Organization()
+                if reqData["canIssue"] 
+                else models.Student()
+            )
+            if User.objects.filter(username=reqData["name"]).count() == 0:
+                userData.user = User.objects.create_user(reqData["name"],password=reqData["password"])
+            else:
+                raise Exception(f"A user with name {reqData['name']} already exists. Try a different username.")
+            userData.name = reqData["name"]
+            userData.save()
+
+            token = encode({
+                "name":reqData["name"],
+                "canIssue?":reqData["canIssue"]
+            },config("SECRET_KEY"))
+
+            return Response({
+                "error":False,
+                "message":f"User {reqData['name']} has been successfully created.",
+                "jwt":token
+            })
+        except Exception as error:
+            print(error)
+            return Response({
+                "error":True,
+                "message":str(error)
+            },status=400)
 
 class StudentDetail(generics.RetrieveAPIView):
     queryset = User.objects.exclude(student=None)
@@ -60,3 +105,4 @@ class CertificateCreate(generics.CreateAPIView):
         serializer.save()
         headers = self.get_success_headers(serializer.data)
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
+    
