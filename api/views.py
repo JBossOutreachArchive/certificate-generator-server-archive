@@ -23,16 +23,17 @@ from datetime import datetime
 @authentication_classes([])
 @permission_classes([])
 class Register(APIView):
+    @classmethod
     def post(self, req):
         try:
             reqData = req.data
             requiredParams = ["canIssue","name","password"]
 
             if (sorted(list(reqData.keys())) != requiredParams):
-                raise Exception("Missing or invalid parameters") 
+                raise Exception("Missing or invalid parameters")
             userData = (
                 models.Organization()
-                if reqData["canIssue"] 
+                if reqData["canIssue"]
                 else models.Student()
             )
             if User.objects.filter(username=reqData["name"]).count() == 0:
