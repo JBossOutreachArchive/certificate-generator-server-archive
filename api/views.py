@@ -18,6 +18,7 @@ from api import (
 )
 from jwt import encode
 from decouple import config
+from datetime import datetime
 
 @authentication_classes([])
 @permission_classes([])
@@ -43,7 +44,13 @@ class Register(APIView):
 
             token = encode({
                 "name":reqData["name"],
-                "canIssue?":reqData["canIssue"]
+                "canIssue?":reqData["canIssue"],
+                "iat":int((datetime.utcnow()-datetime(1970,1,1)).total_seconds()),
+                "nbf":int((datetime.utcnow()-datetime(1970,1,1)).total_seconds()),
+                "exp":int((datetime.utcnow()-datetime(1970,1,1)).total_seconds())+3600,
+                "iss":"JBoss-certificate-generator",
+                "aud":"JBoss-certificate-generator",
+                "user_id":userData.id
             },config("SECRET_KEY"))
 
             return Response({
