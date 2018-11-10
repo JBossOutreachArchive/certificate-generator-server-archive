@@ -22,7 +22,7 @@ from datetime import datetime
 
 @authentication_classes([])
 @permission_classes([])
-class Register(APIView):
+class Register(generics.CreateAPIView):
     @classmethod
     def post(self, req):
         try:
