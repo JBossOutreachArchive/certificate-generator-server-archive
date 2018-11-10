@@ -29,7 +29,6 @@ class TestIssuer(TestCase):
         self.assertEqual(tokenData["name"],"test-admin")
         self.assertEqual(tokenData["canIssue?"],'True')
         self.assertEqual(tokenData["user_id"],1)
-
     def authenticate_cert_issuable_user(self):
         # Authenticate user and obtain JWT
         tokenReq = c.post("http://localhost:8000/api-token-auth/",data={
@@ -48,7 +47,6 @@ class TestIssuer(TestCase):
         # Run tests in correct order
         self.create_cert_issuable_user()
         self.authenticate_cert_issuable_user()
-
 class TestStudent(TestCase):
     def create_cert_student_user(self):
         # Create user and test is JWT is valid
@@ -72,7 +70,6 @@ class TestStudent(TestCase):
         self.assertEqual(tokenData["name"],"test-student")
         self.assertEqual(tokenData["canIssue?"],'False')
         self.assertEqual(tokenData["user_id"],1)
-
     def authenticate_cert_student_user(self):
         # Authenticate user and obtain JWT
         tokenReq = c.post("http://localhost:8000/api-token-auth/",data={
@@ -87,7 +84,6 @@ class TestStudent(TestCase):
         print(tokenData)
         self.assertEqual(tokenData["username"],"test-student")
         self.assertEqual(tokenData["user_id"],1)
-    
     def test(self):
         # Run tests in correct order
         self.create_cert_student_user()

@@ -6,7 +6,6 @@ from rest_framework import (
     permissions,
     status
 )
-from rest_framework.views import APIView
 from rest_framework.decorators import (
     authentication_classes,
     permission_classes
