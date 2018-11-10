@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class OrganizationTestCase(TestCase):
     def setUp(self):
-        user = User.objects.create(username="jbossAdmin", password="jbossAdminsPassword")
+        user = User.objects.create_user("jbossAdmin", None, "jbossAdminsPassword")
         Organization.objects.create(user=user, name="JBoss Outreach")
 
     def test_if_organization_was_created(self):
@@ -16,7 +16,7 @@ class OrganizationTestCase(TestCase):
 
 class StudentTestcase(TestCase):
     def setUp(self):
-        user = User.objects.create(username="jbossStudent", password="jbossAdminsPassword")
+        user = User.objects.create_user("jbossStudent", None, "jbossAdminsPassword")
         Student.objects.create(user=user, name="Saba Khukhunashvili")
 
     def test_if_student_was_created(self):
