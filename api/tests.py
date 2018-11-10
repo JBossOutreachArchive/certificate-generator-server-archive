@@ -44,7 +44,6 @@ class TestIssuer(TestCase):
         print(tokenData)
         self.assertEqual(tokenData["username"],"test-admin")
         self.assertEqual(tokenData["user_id"],1)
-    
     def test(self):
         # Run tests in correct order
         self.create_cert_issuable_user()
@@ -93,4 +92,3 @@ class TestStudent(TestCase):
         # Run tests in correct order
         self.create_cert_student_user()
         self.authenticate_cert_student_user()
-    
