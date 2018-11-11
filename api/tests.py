@@ -1,7 +1,8 @@
 from django.test import TestCase
 from jwt import decode
-from django.test import Client
 from decouple import config
+
+from django.test import Client
 c = Client()
 
 # Create your tests here.
@@ -9,7 +10,7 @@ c = Client()
 class TestIssuer(TestCase):
     def create_cert_issuable_user(self):
         # Create user and test is JWT is valid
-        req = c.post("http://localhost:8000/api/register",data={
+        req = c.post("/api/register",data={
             "name":"test-admin",
             "password":"EY#ubuMk!kFd966%",
             "canIssue":True
@@ -31,7 +32,7 @@ class TestIssuer(TestCase):
         self.assertEqual(tokenData["user_id"],1)
     def authenticate_cert_issuable_user(self):
         # Authenticate user and obtain JWT
-        tokenReq = c.post("http://localhost:8000/api-token-auth/",data={
+        tokenReq = c.post("/api-token-auth/",data={
             "username":"test-admin",
             "password":"EY#ubuMk!kFd966%"
         })
@@ -50,7 +51,7 @@ class TestIssuer(TestCase):
 class TestStudent(TestCase):
     def create_cert_student_user(self):
         # Create user and test is JWT is valid
-        req = c.post("http://localhost:8000/api/register",data={
+        req = c.post("/api/register",data={
             "name":"test-student",
             "password":"9ggz&;K-ebC!%R3c",
             "canIssue":False
@@ -72,7 +73,7 @@ class TestStudent(TestCase):
         self.assertEqual(tokenData["user_id"],1)
     def authenticate_cert_student_user(self):
         # Authenticate user and obtain JWT
-        tokenReq = c.post("http://localhost:8000/api-token-auth/",data={
+        tokenReq = c.post("/api-token-auth/",data={
             "username":"test-student",
             "password":"9ggz&;K-ebC!%R3c"
         })
