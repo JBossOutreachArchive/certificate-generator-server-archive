@@ -1,5 +1,5 @@
 from django.test import TestCase
-from jwt import decode
+from rest_framework_jwt.utils import jwt_decode_handler as decode
 from decouple import config
 
 from django.test import Client
@@ -25,14 +25,9 @@ class TestIssuer(TestCase):
             data["message"],
             "User test-admin has been successfully created."
         )
-        tokenData = decode(data["jwt"], config("SECRET_KEY"),
-            algorithms=["HS256"],
-            issuer="JBoss-certificate-generator",
-            audience="JBoss-certificate-generator"
-        )
+        tokenData = decode(data["jwt"])
         print(tokenData)
-        self.assertEqual(tokenData["name"], "test-admin")
-        self.assertEqual(tokenData["canIssue?"], 'True')
+        self.assertEqual(tokenData["username"], "test-admin")
         self.assertEqual(tokenData["user_id"], 1)
 
     def authenticate_cert_issuable_user(self):
@@ -43,9 +38,7 @@ class TestIssuer(TestCase):
         })
         self.assertEqual(tokenReq.status_code, 200)
         token = tokenReq.json()["token"]
-        tokenData = decode(token, config("SECRET_KEY"),
-            algorithms=["HS256"]
-        )
+        tokenData = decode(token)
         print(tokenData)
         self.assertEqual(tokenData["username"], "test-admin")
         self.assertEqual(tokenData["user_id"], 1)
@@ -73,14 +66,9 @@ class TestStudent(TestCase):
             data["message"],
             "User test-student has been successfully created."
         )
-        tokenData = decode(data["jwt"], config("SECRET_KEY"),
-            algorithms=["HS256"],
-            issuer="JBoss-certificate-generator",
-            audience="JBoss-certificate-generator"
-        )
+        tokenData = decode(data["jwt"])
         print(tokenData)
-        self.assertEqual(tokenData["name"], "test-student")
-        self.assertEqual(tokenData["canIssue?"], 'False')
+        self.assertEqual(tokenData["username"], "test-student")
         self.assertEqual(tokenData["user_id"], 1)
 
     def authenticate_cert_student_user(self):
@@ -91,9 +79,7 @@ class TestStudent(TestCase):
         })
         self.assertEqual(tokenReq.status_code, 200)
         token = tokenReq.json()["token"]
-        tokenData = decode(token, config("SECRET_KEY"),
-            algorithms=["HS256"]
-        )
+        tokenData = decode(token)
         print(tokenData)
         self.assertEqual(tokenData["username"], "test-student")
         self.assertEqual(tokenData["user_id"], 1)

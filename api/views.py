@@ -1,5 +1,10 @@
 from django.contrib.auth.models import User
 
+from rest_framework_jwt.utils import (
+    jwt_payload_handler as jwtPayloadHandler,
+    jwt_encode_handler as jwtEncodeHandler
+)
+
 from rest_framework.response import Response
 from rest_framework import (
     generics,
@@ -11,9 +16,6 @@ from api import (
     serializers,
     permissions as custom_permissions,
 )
-from jwt import encode
-from decouple import config
-from datetime import datetime
 
 class Register(generics.CreateAPIView):
     permission_classes = []
@@ -35,19 +37,11 @@ class Register(generics.CreateAPIView):
                 userData.user = User.objects.create_user(reqData["name"],password=reqData["password"])
             else:
                 raise Exception(f"A user with name {reqData['name']} already exists. Try a different username.")
-            userData.name = reqData["name"]
+            userData.username = reqData["name"]
             userData.save()
 
-            token = encode({
-                "name":reqData["name"],
-                "canIssue?":reqData["canIssue"],
-                "iat":int((datetime.utcnow()-datetime(1970,1,1)).total_seconds()),
-                "nbf":int((datetime.utcnow()-datetime(1970,1,1)).total_seconds()),
-                "exp":int((datetime.utcnow()-datetime(1970,1,1)).total_seconds())+3600,
-                "iss":"JBoss-certificate-generator",
-                "aud":"JBoss-certificate-generator",
-                "user_id":userData.id
-            },config("SECRET_KEY"))
+            payload = jwtPayloadHandler(userData)
+            token = jwtEncodeHandler(payload)
 
             return Response({
                 "error":False,
