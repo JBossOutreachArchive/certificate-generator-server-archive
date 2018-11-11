@@ -6,10 +6,6 @@ from rest_framework import (
     permissions,
     status
 )
-from rest_framework.decorators import (
-    authentication_classes,
-    permission_classes
-)
 from api import (
     models,
     serializers,
@@ -19,9 +15,9 @@ from jwt import encode
 from decouple import config
 from datetime import datetime
 
-@authentication_classes([])
-@permission_classes([])
 class Register(generics.CreateAPIView):
+    permission_classes = []
+    authentication_classes = []
     @classmethod
     def post(self, req):
         try:
