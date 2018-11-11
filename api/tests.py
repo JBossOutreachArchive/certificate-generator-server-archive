@@ -1,6 +1,5 @@
 from django.test import TestCase
 from rest_framework_jwt.utils import jwt_decode_handler as decode
-from decouple import config
 
 from django.test import Client
 c = Client()
