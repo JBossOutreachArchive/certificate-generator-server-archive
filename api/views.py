@@ -1,6 +1,10 @@
 from django.contrib.auth.models import User
-
+from django.db import IntegrityError
+import jwt
 from rest_framework.response import Response
+from rest_framework.decorators import authentication_classes, permission_classes
+from decouple import config
+
 from rest_framework import (
     generics,
     permissions,
@@ -9,9 +13,46 @@ from rest_framework import (
 from api import (
     models,
     serializers,
-    permissions as custom_permissions,
+    permissions as custom_permissions
 )
 
+@authentication_classes([])
+@permission_classes([])
+class StudentCreation(generics.CreateAPIView):
+    model = models.Student
+    serializer_class = serializers.StudentBasicSerializer
+
+    @classmethod
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.create(request.data)
+                jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
+                return Response(jwt_token, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            serializer.error_messages = {'Error': 'Student with that username already exists!'};
+        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
+
+
+@authentication_classes([])
+@permission_classes([])
+class OrganizationCreation(generics.CreateAPIView):
+    model = models.Organization
+    serializer_class = serializers.OrganisationBasicSerializer
+
+    @classmethod
+    def create(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+
+        try:
+            if serializer.is_valid(raise_exception=True):
+                serializer.create(request.data)
+                jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
+                return Response(jwt_token, status=status.HTTP_201_CREATED)
+        except IntegrityError:
+            serializer.error_messages = {'Error': 'Organization with that username already exists!'}
+        return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 class StudentDetail(generics.RetrieveAPIView):
     queryset = User.objects.exclude(student=None)
