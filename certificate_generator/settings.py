@@ -1,7 +1,10 @@
-import os
-from decouple import config
-import dj_database_url
 import datetime
+import os
+
+import dj_database_url
+
+from decouple import config
+
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -14,9 +17,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', cast = bool , default = True)
+DEBUG = config('DEBUG', cast=bool, default=True)
 
-ALLOWED_HOSTS = [ host.strip() for host in config('ALLOWED_HOSTS', default = '').split(',') ]
+ALLOWED_HOSTS = [host.strip() for host in
+                 config('ALLOWED_HOSTS', default='').split(',')]
 
 
 # Application definition
@@ -87,7 +91,16 @@ if DEBUG:
         }
     }
 else:
-    DATABASES = dj_database_url.config(default=config('DATABASE_URL'))
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': config('DB_NAME'),
+            'USER': config('DB_USER'),
+            'PASSWORD': config('DB_PASSWORD'),
+            'HOST': config('DB_HOST'),
+            'PORT': config('DB_PORT'),
+        }
+    }
 
 
 # Password validation
@@ -95,7 +108,8 @@ else:
 
 AUTH_PASSWORD_VALIDATORS = [
     {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+        'NAME': 'django.contrib.auth.password_validation.'
+                'UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
