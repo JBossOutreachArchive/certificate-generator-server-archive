@@ -3,6 +3,7 @@ from django.db import IntegrityError
 import jwt
 from rest_framework.response import Response
 from rest_framework.decorators import authentication_classes, permission_classes
+from rest_framework_jwt.settings import api_settings
 from decouple import config
 
 from rest_framework import (
@@ -16,30 +17,35 @@ from api import (
     permissions as custom_permissions
 )
 
-@authentication_classes([])
-@permission_classes([])
+
 class StudentCreation(generics.CreateAPIView):
     model = models.Student
     serializer_class = serializers.StudentBasicSerializer
+    authentication_classes = tuple()
+    permission_classes = tuple()
 
     @classmethod
     def create(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
+        jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
+        jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
         try:
             if serializer.is_valid(raise_exception=True):
-                serializer.create(request.data)
-                jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
+                student = serializer.create(request.data)
+                jwt_token = {
+                    'token': jwt_encode_handler(jwt_payload_handler(student.user))
+                } 
                 return Response(jwt_token, status=status.HTTP_201_CREATED)
         except IntegrityError:
-            serializer.error_messages = {'Error': 'Student with that username already exists!'};
+            serializer.error_messages = {'Error': 'Student with that username already exists!'}
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
 
-@authentication_classes([])
-@permission_classes([])
 class OrganizationCreation(generics.CreateAPIView):
     model = models.Organization
     serializer_class = serializers.OrganisationBasicSerializer
+    authentication_classes = tuple()
+    permission_classes = tuple()
 
     @classmethod
     def create(self, request, *args, **kwargs):
@@ -47,17 +53,18 @@ class OrganizationCreation(generics.CreateAPIView):
 
         try:
             if serializer.is_valid(raise_exception=True):
-                serializer.create(request.data)
+                user = serializer.create(request.data)
                 jwt_token = {'token': jwt.encode(serializer.data, config('SECRET_KEY'))}
                 return Response(jwt_token, status=status.HTTP_201_CREATED)
         except IntegrityError:
             serializer.error_messages = {'Error': 'Organization with that username already exists!'}
         return Response(serializer.error_messages, status=status.HTTP_400_BAD_REQUEST)
 
+
 class StudentDetail(generics.RetrieveAPIView):
     queryset = User.objects.exclude(student=None)
     model = User
-    serializer_class = serializers.UserBasicSerializer
+    serializer_class = serializers.StudentBasicSerializer
 
     permission_classes = (permissions.IsAdminUser,)
 
@@ -65,7 +72,7 @@ class StudentDetail(generics.RetrieveAPIView):
 class StudentList(generics.ListAPIView):
     queryset = User.objects.exclude(student=None)
     model = User
-    serializer_class = serializers.UserBasicSerializer
+    serializer_class = serializers.StudentBasicSerializer
 
     permission_classes = (permissions.IsAdminUser,)
 
