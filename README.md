@@ -5,40 +5,40 @@ An automatic certificate generator for events according to multiple input files 
 
 ## Setting up environment
 
-- Install virtual environment
+  - Install virtual environment
 
 ```sh
 pip install virtualenv
 ```
 
-- Create a virtual environment named env using the following command
+  - Create a virtual environment named env using the following command
 
 ```sh
 virtualenv env -p python3
 ```
 
-- To activate the virtual environment in Windows, run:
+  - To activate the virtual environment in Windows, run:
 
 ```sh
 env\Scripts\activate.bat
 ```
 
-- To activate the virtual environment in Linux or MacOS, run:
+  - To activate the virtual environment in Linux or MacOS, run:
 
 ```sh
 source env/bin/activate
 ```
 
-- Run the following command to install the dependencies
+  - Run the following command to install the dependencies
 
 ```sh
 pip install -r requirements.txt
 ```
 
-- Create .env file with
-  - SECRET_KEY
-  - DEBUG
-  - ALLOWED_HOSTS (separated by comma)
+  - Create .env file with
+    - SECRET_KEY
+    - DEBUG
+    - ALLOWED_HOSTS (separated by comma)
 
 Check [Example .env file](.env.sample)
 
