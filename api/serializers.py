@@ -4,10 +4,23 @@ from rest_framework import serializers
 from api import models
 
 
+class UserBasicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password')
+        write_only_fields = ('password',)
+    
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user
+
+
 class StudentBasicSerializer(serializers.ModelSerializer):
+    user = UserBasicSerializer()
+
     class Meta:
         model = models.Student
-        fields = ('name',)
+        fields = ('name', 'user')
 
     @classmethod
     def create(self, data):
@@ -17,18 +30,12 @@ class StudentBasicSerializer(serializers.ModelSerializer):
         return models.Student.objects.create(user=user, name=data.pop('name'))
 
 
-class UserBasicSerializer(serializers.ModelSerializer):
-    student = StudentBasicSerializer()
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'student')
-
-
 class OrganisationBasicSerializer(serializers.ModelSerializer):
+    user = UserBasicSerializer()
+
     class Meta:
         model = models.Organization
-        fields = ('name',)
+        fields = ('name', 'user')
 
     @classmethod
     def create(self, data):

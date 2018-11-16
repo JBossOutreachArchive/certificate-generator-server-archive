@@ -1,27 +1,55 @@
+import json
 from django.test import TestCase
-from .models import Organization, Student
 from django.contrib.auth.models import User
+from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework.test import (
+    APIRequestFactory,
+    APIClient
+)
+from api import (
+    models,
+    views
+)
 
 
-class OrganizationTestCase(TestCase):
+class StudentRegistrationTestcase(TestCase):
     def setUp(self):
-        user = User.objects.create_user("jbossAdmin", None, "jbossAdminsPassword")
-        Organization.objects.create(user=user, name="JBoss Outreach")
+        self.factory = APIRequestFactory()
+        self.client = APIClient()
 
-    def test_if_organization_was_created(self):
-        user = User.objects.get(username="jbossAdmin")
-        org = Organization.objects.get(user=user)
+    def test_if_student_was_create(self):
+        # Registering a new user
+        payload = {
+            "name": "test",
+            "user": {
+                "username": "test",
+                "password": "password",
+                "email": "test@test.com"
+            }
+        }
+        request = self.factory.post('/api/user', payload, format='json')
+        response = views.StudentCreation.as_view()(request)
+        self.assertEqual(response.status_code, 201)
 
-        self.assertEqual(org.name, "JBoss Outreach")
+        # Checking whether the actual user object was created or not
+        user = User.objects.get(username='test')
+        self.assertEqual(user.username, 'test')
+        self.assertEqual(user.email, 'test@test.com')
 
-class StudentTestcase(TestCase):
-    def setUp(self):
-        user = User.objects.create_user("jbossStudent", None, "jbossAdminsPassword")
-        Student.objects.create(user=user, name="Saba Khukhunashvili")
+        # Checking if password is stored as a hash or plain
+        user = User.objects.get(username='test')
+        self.assertNotEqual(user.password, "password")
 
-    def test_if_student_was_created(self):
-        user = User.objects.get(username="jbossStudent")
-        student = Student.objects.get(user=user)
-
-        self.assertEqual(student.name, "Saba Khukhunashvili")
-        self.assertEqual(student.email_validated, False)
+        # Trying a login protected route for student
+        payload = {
+            "username": "test",
+            "password": "password"
+        }
+        request = self.factory.post('/api-token-auth/', payload, format='json')
+        response = obtain_jwt_token(request)
+        self.assertEqual(response.status_code, 200)
+        response.render()
+        token = json.loads(response.content)['token']
+        self.client.credentials(HTTP_AUTHORIZATION='JWT {}'.format(token))
+        response = self.client.get('/api/get_certificates/')
+        self.assertEqual(response.status_code, 200)
