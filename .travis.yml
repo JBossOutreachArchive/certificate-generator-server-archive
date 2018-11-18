@@ -1,11 +1,17 @@
 language: python
 python:
  - "3.6"
-    
-install: pip install -r requirements.txt
+ services: 
+      - mysql
+    env: 
+      -DJANGO=1.8 DB=mysql
+    install:  
+      - pip install -r requirements.txt
+    before_script: 
+      - mysql -e 'create database test;' -u root
 
 script:
-  - python manage.py
+  - python manage.py test
 
 
 
