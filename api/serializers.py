@@ -52,12 +52,10 @@ class UserOrganizationBasicSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'email', 'organization')
 
-
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Certificate
         fields = ('issued_for', 'student', 'issuing_organization')
-
 
 class CertificateDetailSerializer(CertificateSerializer):
     student = StudentBasicSerializer()

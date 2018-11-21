@@ -2,7 +2,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from rest_framework import permissions
 
-
 class CanIssueCertificate(permissions.BasePermission):
     @classmethod
     def has_permission(cls, request, view):
