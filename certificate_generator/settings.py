@@ -153,7 +153,7 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
 }
 
-if not DEBUG: 
+if not DEBUG:
     LOGGING = {
         'version': 1,
         'disable_existing_loggers': False,
