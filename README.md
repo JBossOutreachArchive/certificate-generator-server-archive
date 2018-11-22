@@ -28,12 +28,13 @@ pipenv install
 
 The above command install all the dependencies.
 
-- Create .env file with
-  - SECRET_KEY
-  - DEBUG
-  - ALLOWED_HOSTS (separated by comma)
+- Setup environmental variables using:
 
-Check [Sample .env file](.env.sample)
+```sh
+cp .env.sample .env
+```
+
+Now edit .env fill the generated `.env` file with your credentials to run it locally.
 
 ## Running
 
@@ -61,3 +62,10 @@ To lock the dependencies for deployment, run:
 ```sh
 pipenv lock
 ```
+
+## License
+
+This project is currently licensed under the **[GNU General Public License v3](LICENSE.md)**.
+i.e we guarantee end users the freedom to run, study, share and modify the software.
+
+> To obtain the software under a different license, please contact [JBossOutreach](https://gitter.im/JBossOutreach/gci).
