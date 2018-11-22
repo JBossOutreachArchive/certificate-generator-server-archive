@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.shortcuts import get_object_or_404
 from django.db import IntegrityError
 import jwt
 from rest_framework.response import Response
@@ -62,16 +63,31 @@ class OrganizationCreation(generics.CreateAPIView):
 
 
 class StudentDetail(generics.RetrieveAPIView):
-    queryset = User.objects.exclude(student=None)
-    model = User
+    queryset = models.Student.objects.all()
+    model = models.Student
+    get_object_using = 'user__username'
     serializer_class = serializers.StudentBasicSerializer
 
     permission_classes = (permissions.IsAdminUser,)
 
+    def get_object(self):
+        if 'pk' in self.kwargs:
+            return super(StudentDetail, self).get_object()
+
+        filter_kwargs = {
+            self.get_object_using: self.kwargs['username']
+        }
+        obj = get_object_or_404(self.model, **filter_kwargs)
+
+        # May raise a permission denied
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
 
 class StudentList(generics.ListAPIView):
-    queryset = User.objects.exclude(student=None)
-    model = User
+    queryset = models.Student.objects.all()
+    model = models.Student
     serializer_class = serializers.StudentBasicSerializer
 
     permission_classes = (permissions.IsAdminUser,)
