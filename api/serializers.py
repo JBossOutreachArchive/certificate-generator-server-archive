@@ -8,7 +8,9 @@ class UserBasicSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email', 'password')
-        write_only_fields = ('password',)
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
     
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
@@ -20,7 +22,7 @@ class StudentBasicSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.Student
-        fields = ('name', 'user')
+        fields = ('id', 'name', 'user')
 
     @classmethod
     def create(self, data):
@@ -52,12 +54,10 @@ class UserOrganizationBasicSerializer(serializers.ModelSerializer):
         model = User
         fields = ('username', 'email', 'organization')
 
-
 class CertificateSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Certificate
         fields = ('issued_for', 'student', 'issuing_organization')
-
 
 class CertificateDetailSerializer(CertificateSerializer):
     student = StudentBasicSerializer()
