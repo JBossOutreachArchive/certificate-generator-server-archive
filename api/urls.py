@@ -4,6 +4,8 @@ from api import views
 
 urlpatterns = [
     path('org/', views.OrganizationCreation.as_view()),
+    path('org/certificates/', views.OrganizationCertificateList.as_view()),
+    
     path('user/', views.StudentCreation.as_view()),
     path('user/<int:pk>', views.StudentDetail.as_view()),
     path('user/<username>', views.StudentDetail.as_view()),
