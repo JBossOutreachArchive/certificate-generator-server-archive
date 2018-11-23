@@ -8,3 +8,4 @@ python-decouple==3.1
 pytz==2018.5
 whitenoise==4.1
 psycopg2
+social_django

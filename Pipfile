@@ -19,3 +19,4 @@ PyJWT = "==1.6.4"
 
 [requires]
 python_version = "3.6.6"
+social_django
