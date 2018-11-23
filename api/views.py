@@ -104,7 +104,7 @@ class CertificateList(generics.ListAPIView):
 class OrganizationCertificateList(generics.ListAPIView):
     model = models.Certificate
     serializer_class = serializers.CertificateDetailSerializer
-    
+
     permission_classes = (permissions.IsAuthenticated,)
 
     def get_queryset(self):
