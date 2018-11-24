@@ -39,6 +39,12 @@ class Certificate(models.Model):
     date = models.DateField(auto_now_add=True)
     issued_for = models.CharField(max_length=256)
 
+    @classmethod
+    def getFields(cls):
+        autoGenerate = ["date", "id", "issuing_organization"]
+        fields = cls._meta.get_fields()
+        return [field.name for field in fields if not field.name in autoGenerate]
+
     class Meta:
         permissions = (
             ("can_issue_certificate", "Can Issue Certificate"),
