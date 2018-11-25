@@ -13,4 +13,5 @@ urlpatterns = [
     path('certificate/<pk>', views.CertificateDetail.as_view()),
 
     path('issue_certificate/', views.CertificateCreate.as_view()),
+    path('issue_certificate/csv/', views.CertificateCreateFromCSV.as_view()),
 ]
