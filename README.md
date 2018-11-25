@@ -37,6 +37,15 @@ cp .env.sample .env
 
 Now edit .env fill the generated `.env` file with your credentials to run it locally.
 
+## Database 
+
+For the Database to be used(in Production),
+you can export the connection url in `DATABASE_URL`,
+eg,
+```sh
+$ export DATABASE_URL=postgres://postgres:mysecretpassword@127.0.0.1:5432/test
+```
+
 ## Running
 
 ```sh
