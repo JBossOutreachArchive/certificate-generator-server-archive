@@ -14,6 +14,7 @@ whitenoise = "==4.1"
 "psycopg2-binary" = "*"
 Django = "==2.1.2"
 PyJWT = "==1.6.4"
+pytest-django = "*"
 
 [dev-packages]
 
