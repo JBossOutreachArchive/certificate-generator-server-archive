@@ -65,9 +65,11 @@ class StudentRegistrationTestcase(TestCase):
         response = self.client.get('/api/get_certificates/')
         self.assertEqual(response.status_code, 200)
 
+
 SOCIAL_URL = get_current_site(request)
 
-class TryToken:  
+
+class TryToken:
 
     def try_token(self, token):
         return self.post(
@@ -79,11 +81,13 @@ class TryToken:
 class TestInvalidProvider(TryToken, APITestCase):
 
     provider = 'google'
+
     def test_only_allowed_backends_work(self):
         for token in USER_INFO:
             with self.subTest(token=token):
                 resp = self.try_token(token)
                 self.assertEqual(resp.status_code, 404)
+
 
 USER_INFO = {  # Example
     'user_1': {
@@ -127,13 +131,15 @@ class SocialAuthTests(TryToken):
                 self.assertEqual(self.status_head(resp), 2)
                 self.assertIn('token', resp.data)
                 self.assertNotEqual(resp.data['token'], token)
-                self.assertEqual(User.objects.filter(email=data['email']).count(), 1)
+                self.assertEqual(
+                    User.objects.filter(
+                        email=data['email']).count(), 1)
                 user_model = User.objects.get(email=data['email'])
                 self.assertEqual(user_model.username, user_model.email)
 
     def test_existing_user_login(self):
         for token, data in USER_INFO.items():
-            
+
             User.objects.create_user(data['email'], email=data['email'],
                                      first_name=data['name'], last_name='')
 
@@ -142,28 +148,35 @@ class SocialAuthTests(TryToken):
                 self.assertEqual(self.status_head(resp), 2)
                 self.assertIn('token', resp.data)
                 self.assertNotEqual(resp.data['token'], token)
-                self.assertEqual(User.objects.filter(email=data['email']).count(), 1)
+                self.assertEqual(
+                    User.objects.filter(
+                        email=data['email']).count(), 1)
                 user = User.objects.get(email=data['email'])
                 self.assertEqual(user.get_full_name(), data['name'])
 
     def test_invalid_social_token(self):
 
         usernames = {u.username for u in User.objects.all()}
-        token = 'invalid_token' 
+        token = 'invalid_token'
         resp = self.try_token(token)
         self.assertEqual(self.status_head(resp), 4)
         self.assertNotIn('token', resp.data)
         new_usernames = {u.username for u in User.objects.all()}
         self.assertEqual(usernames, new_usernames)
 
-QUERY_STRINGS_RE = '\?([\w-]+(=[\w-]*)?(&[\w-]+(=[\w-]*)?)*)?$' #Regular expression string designed for query strings from the end of an URL.
+
+# Regular expression string designed for query strings from the end of an URL.
+QUERY_STRINGS_RE = r'\?([\w-]+(=[\w-]*)?(&[\w-]+(=[\w-]*)?)*)?$'
+
 
 class TestGoogle(SocialAuthTests, APITestCase):
     provider = 'google-oauth2'
-    base_url = 'https://www.googleapis.com/plus/v1/people/me'.replace('.', r'\.')
+    base_url = 'https://www.googleapis.com/plus/v1/people/me'.replace(
+        '.', r'\.')
     mock_url = re.compile(
         base_url + QUERY_STRINGS_RE
     )
+
 
 class TestFacebook(SocialAuthTests, APITestCase):
     provider = 'facebook'
@@ -172,9 +185,10 @@ class TestFacebook(SocialAuthTests, APITestCase):
         base_url + QUERY_STRINGS_RE
     )
 
+
 class TestTwitter(SocialAuthTests, APITestCase):
     provider = 'twitter'
     base_url = twitter.TwitterOAuth2.USER_DATA_URL.replace('.', r'\.')
     mock_url = re.compile(
         base_url + QUERY_STRINGS_RE
-    )    
+    )
