@@ -119,6 +119,16 @@ class StudentDetail(generics.RetrieveAPIView):
 
         return obj
 
+class StudentsCertificates(generics.ListAPIView):
+    model = models.Certificate
+    serializer_class = serializers.CertificateDetailSerializer
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        print(self.request.user)
+        return models.Certificate.objects.filter(student=self.request.user.student). \
+                                          order_by('-date')
+
 
 class StudentList(generics.ListAPIView):
     queryset = models.Student.objects.all()
