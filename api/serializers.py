@@ -65,4 +65,4 @@ class CertificateDetailSerializer(CertificateSerializer):
 
     class Meta:
         model = models.Certificate
-        fields = ('id', 'issued_for', 'student', 'issuing_organization')
+        fields = ('id', 'issued_for', 'student', 'issuing_organization', 'date')

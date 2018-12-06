@@ -136,6 +136,17 @@ class CertificateList(generics.ListAPIView):
         return models.Certificate.objects.filter(student=self.request.user.student). \
             exclude(student=None)
 
+class OrganizationCertificateList(generics.ListAPIView):
+    model = models.Certificate
+    serializer_class = serializers.CertificateDetailSerializer
+
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def get_queryset(self):
+        return models.Certificate.objects.filter(issuing_organization=self.request.user.organization). \
+                                          exclude(issuing_organization=None). \
+                                          order_by('-date')
+
 
 class CertificateDetail(generics.RetrieveAPIView):
     model = models.Certificate
