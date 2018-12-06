@@ -157,8 +157,12 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
 }
 
-if DEBUG:
-    CORS_ORIGIN_ALLOW_ALL=True
-else:
-    CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = (
+    'localhost:4200',
+)
+CORS_ORIGIN_REGEX_WHITELIST = (
+    'localhost:4200',
+)
 
