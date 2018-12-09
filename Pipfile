@@ -21,3 +21,4 @@ pytest-django = "*"
 django-cors-headers = "*"
 
 [dev-packages]
+pylint-django = "*"
