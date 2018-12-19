@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.core.validators import (
     ProhibitNullCharactersValidator,
 )
@@ -13,6 +13,11 @@ class Organization(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=100,
                             validators=[ProhibitNullCharactersValidator])
+
+    def save(self, *args, **kwargs):
+        issue_certificate_permission = Permission.objects.get(codename='can_issue_certificate')
+        self.user.user_permissions.add(issue_certificate_permission)
+        super(Organization, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
