@@ -1,5 +1,6 @@
 import datetime
 import os
+from corsheaders.defaults import default_headers
 
 import dj_database_url
 
@@ -161,3 +162,7 @@ if DEBUG:
     CORS_ORIGIN_ALLOW_ALL = True
 else:
     CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
+
+CORS_ALLOW_HEADERS = default_headers + (
+    'access-control-allow-origin',
+)
