@@ -2,6 +2,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/06bd6acff9cd4506985192596642ef5f)](https://www.codacy.com/app/JBossOutreach/certificate-generator-server?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=JBossOutreach/certificate-generator-server&amp;utm_campaign=Badge_Grade)
 [![Build Status](https://travis-ci.org/JBossOutreach/certificate-generator-server.svg?branch=master)](https://travis-ci.org/JBossOutreach/certificate-generator-server)
+[![Gitter](https://img.shields.io/gitter/room/JBossOutreach/certificate-generator.svg)](https://gitter.im/JBossOutreach/certificate-generator)
 
 An automatic certificate generator for events according to multiple input files like csv, xlsx, numbers and shoots emails with generated certificates.
 
@@ -63,6 +64,47 @@ To lock the dependencies for deployment, run:
 ```sh
 pipenv lock
 ```
+
+## Setting up project
+ 
+ **1.** **Fork** this project by clicking the _Fork_ button on top right corner of this page.
+ 
+ **2.** **Clone** the repository by running following command in [git](https://git-scm.com/):
+ ```sh
+ $ git clone https://github.com/[YOUR-USERNAME]/certificate-generator-server.git
+ ```
+ 
+ ## Contributing
+ 
+ **1.** Make reasonable changes.
+ 
+ **2.** **Add all changes** by running this command on the terminal/command prompt:
+ ```sh
+ $ git add .
+ ```
+ Or to add specific files only, run this command:
+ ```sh
+ $ git add path/to/your/file
+ ```
+ Make sure you replace `path/to/your/file` with the actual path to the file you want to add to the staging area.
+ 
+ **3.** **Commit** changes.
+ ```sh
+ $ git commit -m "DESCRIBE YOUR CHANGES HERE"
+ ```
+ **4.** **Push** your changes.
+ ```sh
+ $ git push origin
+ ```
+ **5.** **Create a Pull Request** by clicking the _New pull request_ button on your repository page.
+ 
+ **6.** Always Squash your commits when sending the Pull request
+ 
+ **NOTE** Make sure that you include a desription of changes made by you.
+ 
+ ## Help
+ 
+ If you need any help anywhere in the process, you can always ask a question on our [Gitter Chat](https://gitter.im/jboss-outreach/gci).
 
 ## License
 
