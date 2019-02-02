@@ -49,15 +49,15 @@ python manage.py runserver
 To stop the server, press `Ctrl + C` and deactivate the virtual environment using `deactivate` command.
 
 ## Running in docker
-1. Build image
+1.  Build image
 ```sh
 sudo docker build . -t cert-gen-server:latest
 ```
-2. Run container
+2.  Run container
 ```sh
 sudo docker run -d --name cert-gen cert-gen-server:latest
 ```
-3. If you want to add packages, you would need to get a shell as root:
+3.  If you want to add packages, you would need to get a shell as root:
 ```sh
 sudo docker exec --it --user root cert-gen sh
 
