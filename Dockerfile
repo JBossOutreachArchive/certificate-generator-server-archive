@@ -17,3 +17,8 @@ WORKDIR /home/cert-gen
 
 COPY --from=build /install /usr/local
 COPY --chown=cert-gen:root . .
+RUN python manage.py makemigrations api
+RUN python manage.py migrate
+
+EXPOSE 8000
+CMD [ "python","manage.py","runserver"]
