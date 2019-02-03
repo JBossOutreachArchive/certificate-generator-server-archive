@@ -41,7 +41,6 @@ Now edit .env and fill the generated `.env` file with your credentials to run it
 ## Running
 
 ```sh
-python manage.py migrate
 python manage.py makemigrations api
 python manage.py migrate
 python manage.py runserver
@@ -49,6 +48,22 @@ python manage.py runserver
 
 To stop the server, press `Ctrl + C` and deactivate the virtual environment using `deactivate` command.
 
+## Running in docker
+1.  Build image
+```sh
+sudo docker build . -t cert-gen-server:latest
+```
+2.  Run container
+```sh
+sudo docker run -d --name cert-gen cert-gen-server:latest
+```
+3.  If you want to add packages, you would need to get a shell as root:
+```sh
+sudo docker exec --it --user root cert-gen sh
+
+# In docker container
+apk add curl
+```
 ## Post setup instructions
 
 Instead of adding new dependencies to requirements.txt, simply run:

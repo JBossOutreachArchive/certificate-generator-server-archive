@@ -8,4 +8,4 @@ PyJWT==1.6.4
 python-decouple==3.1
 pytz==2018.5
 whitenoise==4.1
-psycopg2-binary
+psycopg2-binary==2.7.7
